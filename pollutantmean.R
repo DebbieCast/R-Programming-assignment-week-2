@@ -3,12 +3,17 @@ setwd("~/Data Science Specialization/2. R Programming/R-Programming-assignment-w
 
 
 pollutantmean <- function(directory, pollutant, id = 1:332) {   ##Creating the function as requeste
-  directory <- paste(getwd(), "/", directory, "/", sep = "") 
-  ##Defining the argument to get current working directory + the folder were the 
-  ## CSV files are stored called "specdata"
-  lista <- list.files(directory) ## creating a list with these files
+  
+  lista <- list.files(directory, full.names = TRUE) ## creating a list with these files
+  
+  DF <- data.frame() ##creating empty data frame to fill with the for function
   
   for (i in id) {
-    
-  } 
-}  
+      DF <- rbind(DF, read.csv(lista[i]))
+      ## Reading the directory with the defined ID and creating a Dataframe
+  }  
+  result <- mean(DF[ ,pollutant], na.rm = TRUE)
+  return(result)
+}
+
+pollutantmean("specdata", "sulfate", 1:10) ## Testing
